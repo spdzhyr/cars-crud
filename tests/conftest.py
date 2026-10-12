@@ -7,6 +7,15 @@ from fastapi.testclient import TestClient
 from app.main import create_app
 
 
+def pytest_addoption(parser):
+    # This hook has to live in the root conftest. pytest only calls
+    # pytest_addoption for "initial" conftests, so a copy under tests/e2e/ is
+    # ignored whenever the run is driven by testpaths (a plain "pytest -q")
+    # instead of an explicit tests/e2e path, and then every E2E test errors
+    # out on the missing option.
+    parser.addoption("--headed", action="store_true", help="Show the E2E browser window")
+
+
 @pytest.fixture
 def database_path(tmp_path: Path) -> Path:
     return tmp_path / "test-cars.db"

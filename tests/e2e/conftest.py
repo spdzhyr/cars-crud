@@ -13,8 +13,8 @@ import uvicorn
 from app.main import create_app
 
 
-def pytest_addoption(parser):
-    parser.addoption("--headed", action="store_true", help="Show the E2E browser window")
+# The --headed option is registered in tests/conftest.py: pytest only calls
+# pytest_addoption for initial conftests, so it cannot be declared here.
 
 
 @pytest.fixture
